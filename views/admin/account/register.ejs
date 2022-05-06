@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+
+    <link rel = "icon" href ="/img/icon.png" type = "image/x-icon">
+
+    <link rel="stylesheet" type="text/css" href="/global_css/style.css">
+
+    <script type="text/javascript" src="/global_js/main__.js"></script>
+
+    <script type="text/javascript" src="/local_js/admin/rgst__.js"></script>
+
+    <title>Admin | Register</title>
+  </head>
+  <body>
+
+    <header class="p-3  border-bottom w-100 position-sticky top-0 " style="background-color: #3b5794;">
+      <div class="container d-flex justify-content-between">
+        <a href="/admin/ticket/all" class="text-decoration-none">
+          <span class="fw-bold text-white fs-4">Issue Logger </span>
+        </a>
+
+        <div class="d-flex justify-content-start align-items-center">
+            
+
+          <div class="dropdown">
+            <a class="d-block link-dark text-decoration-none  form-select-sm" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-gear-fill fw-bold text-white"></i>
+            </a>
+            <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+              <li><a class="dropdown-item" href="/admin/ticket/all">Home</a></li>
+              <li><a class="dropdown-item" href="/admin/account/admin">Admin</a></li>
+              <li><a class="dropdown-item" href="/admin/account/register">Register</a></li>
+              <li><a class="dropdown-item" href="/admin/account/team">Team</a></li>
+            </ul>
+          </div>
+
+
+            <i class="bi bi-box-arrow-in-right text-white ms-4"></i>
+            <span class="fw-bold text-white ms-1 bi logout">Log out</span>
+        </div>
+      </div>
+    </header>
+
+   <div class="container d-flex  justify-content-start">
+     
+     <div class="d-flex flex-column p-4 shadow border-end mt-5" style=" width: 200px; height: 400px;">
+        <ul class="nav nav-pills flex-column ">
+            <li class="nav-item list-group border-bottom border-top ">
+              <a href="/admin/account/register" class="nav-link link-dark active">
+                <span class="nav_names ms-2">Register</span>
+              </a>
+            </li>
+        </ul>
+        <span class="f-12 mt-3 ">
+          <i class="bi bi-bookmark-fill text-success"></i>
+          You can now add new user. 
+        </span>
+        <span class="f-12 mt-3 ">
+          <i class="bi bi-bookmark-fill text-success"></i>
+          If you registered someone as admin the default password is admin. We will also send email details to the user. 
+        </span>
+        <span class="f-12 mt-3 ">
+          <i class="bi bi-bookmark-fill text-success"></i>
+          This version can registered up to 3 admins and 47 users for database efficiency.
+        </span>
+     </div>
+
+     <div class="ms-5 d-flex flex-column align-items-center " style="width: 800px;">
+
+        <div class="alert w-100"></div>
+        <div class="d-flex justify-content-center container">
+
+          <div class="d-flex flex-column">
+            <div class=" mt-4" style="width: 200px;">
+                <label for="Email1" class="form-label">Email</label>
+                <input type="Email" class="form-control email " id="email" >
+                <div id="emailHelp" class="form-text">Must be a valid email</div>
+                <div  class="feedback"></div>
+            </div>
+
+            <div class="mt-4" style="widows: 200px;">
+              <label for="name" class="form-label">User Type</label>
+              <select class="form-select userType" aria-label="Default select example">
+                <option selected>Select a type</option>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+              <div  class="feedback"></div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column " style="margin-left: 100px;">
+            <div class=" mt-4" style="width: 200px;">
+                <label for="Email1" class="form-label ">First Name</label>
+                <input type="text" class="form-control fname " id="email" >
+                <div id="emailHelp" class="form-text">Max of 20 characters</div>
+                <div  class="feedback"></div>
+            </div>
+
+            <div class=" mt-4" style="width: 200px;">
+                <label for="Email1" class="form-label ">Last Name</label>
+                <input type="text" class="form-control lname " id="email" >
+                <div id="emailHelp" class="form-text">Max of 20 characters</div>
+                <div  class="feedback"></div>
+            </div>
+
+            <div class="mt-4" style="widows: 200px;">
+              <label for="name" class="form-label">Gender</label>
+              <select class="form-select gender" aria-label="Default select example">
+                <option selected>Select a Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+              <div  class="feedback"></div>
+            </div>
+            <button class="btn btn-primary register" style="margin-top: 100px;"> Register</button>
+          </div>
+        </div>
+     </div>
+
+   </div>
+
+
+    <div class="modal fade success" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="container d-flex flex-column align-items-center">
+                  <i class="bi bi-check-circle-fill fs-1 text-success"></i>
+                  <span class="fw-bold text-secondary success-message"> </span>
+                  <div class="d-flex justify-content-center container mt-5">
+                      <a class="btn btn-secondary " href="/admin/account/team" style="width: 100px;">View</a>
+                      <button class="btn btn-primary  ms-3  add-new" style=" width: 100px;">Add new</button>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </body>
+</html>
