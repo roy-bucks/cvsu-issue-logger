@@ -122,6 +122,8 @@ $(".search-btn").click(function(){
 
 		if(! res.error){
 			if(res.data){
+
+				console.log(res.data);
 				//data
 				setTable(res.data);
 			}

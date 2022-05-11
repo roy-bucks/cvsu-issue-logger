@@ -48,7 +48,7 @@ const admin = {
 							name = getName.first_name +" "+getName.last_name;
 						}
 					data.push({
-						ticket_id: tickets.data[a].ticket_id,
+						ticket_id: tickets.data[a].issue_id,
 						status: tickets.data[a].status,
 						subject: tickets.data[a].issue,
 						created_at: moment( new Date(tickets.data[a].created_at)).format('lll'),
@@ -530,7 +530,7 @@ const admin = {
 	}, 
 	getLikeTicketById: async function(id){
 
-		const query = "SELECT * FROM tickets WHERE ticket_id LIKE ?";
+		const query = "SELECT * FROM issues WHERE issue_id LIKE ?";
 		const value = '%' + id + '%'; 
 		const response = await db(query, value)
 			.then(function(res){
