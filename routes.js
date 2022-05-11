@@ -1,11 +1,14 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport")
+
 
 const portalController = require(`./controllers/portal`);
 const userController = require('./controllers/users'); 
 const AdminController = require('./controllers/admin'); 
 const setupController = require("./controllers/setup");
 const adminTicketController = require("./controllers/adminTicket");
+
 
 //Middle ware 
 const { user, admin, home, setup, auth} = require("./middleware/main");
@@ -96,6 +99,19 @@ router.post("/user/ticket/view-process",user, adminTicketController.getTicketDat
 
 
 router.post("/ticket/track",auth,  adminTicketController.trackTicket);
+
+//Google Authentication
+router.get("/users/googleauth", 
+	passport.authenticate('google', {scope: [
+		'https://www.googleapis.com/auth/userinfo.profile',
+	    'https://www.googleapis.com/auth/userinfo.email'
+    ]}));
+
+router.get(
+	"/users/googleauth/callback", 
+	passport.authenticate('google', {failureRedirect: '/'}), 
+	userController.googleauth
+	);
 
 
 module.exports = router;

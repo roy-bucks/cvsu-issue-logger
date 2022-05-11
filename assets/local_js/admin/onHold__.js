@@ -115,13 +115,13 @@ $(document).on("click", ".view", function(){
 
 function setPreviewTicket(data){
 
-	$(".ticket-id-process").val(data.ticket_id);
+	$(".ticket-id-process").val(data.issue_id);
 
 	const updated_at= moment(new Date(data.updated_at)).format('lll');
 	const created_at = moment(new Date(data.created_at)).format('lll')
 
 	//Basic Ticket Details 
-	$(".ticket-id").text(data.ticket_id);
+	$(".ticket-id").text(data.issue_id);
 	$(".ticket-createdBy").text(data.created_by);
 	$(".ticket-status").text(data.status);
 	$(".ticket-priority").text(data.priority);
@@ -130,9 +130,8 @@ function setPreviewTicket(data){
 
 	//Ticket more details
 	$(".ticket-issue").text(data.issue);
-	$(".ticket-sector").text(data.sector);
-	$(".ticket-erp").text(data.erp);
-	$(".ticket-region").text(data.region);
+	$(".ticket-sector").text(data.course);
+	$(".ticket-erp").text(data.admin_instruc);
 
 	const description = data.description; 
 	if(description){
@@ -149,9 +148,8 @@ function setPreviewTicket(data){
 	const file = data.file;
 	if(file){
 
-		console.log(file);
-
 		$(".ticket-file").html("<i class='i bi-file-earmark-fill'></i><a href='"+file+"'> download </a>");
+		$(".file-image").attr("src", file);
 	}
 	else{
 		$(".ticket-file").html("<i class='bi bi-dash-circle-fill text-warning'></i></i><span class='fw-bold text-muted'>  No File Attached</span>");
@@ -173,8 +171,9 @@ $(".submit-update").click(function(){
 		admin_name: $(".profile-name-assigned").val(),
 	}
 
+	console.log(data);
+
 	$.post("/admin/ticket/update/process", {data}, function(res){
-		console.log(res);
 		
 		if(! res.error){
 			$(".view-process").modal("toggle");

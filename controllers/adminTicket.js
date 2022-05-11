@@ -18,6 +18,7 @@ const admin = {
 	}, 
 	getAlNew: async function(req, res){
 		const data = await adminTicketModel.getNewTickets();
+
 		res.json(data); 
 	},
 	getTicketData: async function(req, res){
@@ -26,6 +27,7 @@ const admin = {
 			admin_id: req.session.user_id,
 		} 
 		const response = await adminTicketModel.getTicketData(data);
+		
 		res.json(response);
 	},
 	processTicket: async function(req, res){
@@ -54,6 +56,7 @@ const admin = {
 
 		res.render("admin/ticket/on_hold"); 
 	},
+	//disactivate mechanism
 	ticketDisactivate: async function(req, res){
 		const data = {
 			ticket_id: req.body.ticket_id,

@@ -81,8 +81,8 @@ const user = {
 	//this return the ticet id after the succesfully save the ticket
 	saveTicket: async function(data){
 		const ticket_id = await user.generateTicketNumber();
-		const query = "INSERT INTO tickets SET user_id = ?, ticket_id =?, priority =?, sector = ?, erp =?, region =?, issue = ?, description = ?, file = ?, status =?,active=?,  created_at = ?, updated_at = ? "; 
-		const value = [data.user_id, ticket_id, data.priority, data.sector, data.erp, data.region, data.issue, data.description, data.file, "open","0",  new Date(), new Date()];
+		const query = "INSERT INTO issues SET user_id = ?, issue_id = ?, priority= ?, course = ?, admin_instruc = ?, file = ?, issue = ?, description = ?, status = ?, active =?, created_at = ?, updated_at = ? "; 
+		const value = [ data.user_id, ticket_id, data.priority, data.course, data.admin_instruc, data.file , data.issue, data.description, "open", 1,  new Date(), new Date()];
 		const response = await db(query, value)
 			.then(function(res){
 				return ticket_id;
@@ -116,7 +116,7 @@ const user = {
 
 		async function retry(){
 			let randomNumber = user.NumRandomGenerator(5);
-			ticketId = "TCK-"+randomNumber;
+			ticketId = "ISSUE-"+randomNumber;
 
 			const idExist = await user.checkTicketIdExist(ticketId); 
 			return {
@@ -159,7 +159,7 @@ const user = {
 	//count the active ticket of the user
 	activeTickets: async function(userid){
 
-		const query = "SELECT COUNT(1) AS active FROM tickets WHERE user_id = ? and status != ?";
+		const query = "SELECT COUNT(1) AS active FROM issues WHERE user_id = ? and status != ?";
 		const value = [userid, "close"];
 		const response = await db(query, value)
 			.then(function(res){
@@ -173,7 +173,7 @@ const user = {
 	}, 
 	getAllTicketsById: async function(userid){
 
-		const query = "SELECT * FROM tickets WHERE user_id = ? ORDER BY updated_at DESC";
+		const query = "SELECT * FROM issues WHERE user_id = ? ORDER BY updated_at DESC";
 		const value = userid;
 		const response = await db(query, value)
 			.then(function(res){
@@ -216,6 +216,56 @@ const user = {
 			})
 		return response;
 
+	}, 
+
+	//check if the user exist
+	checkUserExist: async function(email){
+
+		const query = "SELECT COUNT(id) as exist FROM users WHERE email = ?"; 
+		const value = email;
+		const response = await db(query, value)
+			.then(function(res){	
+				return  res.message[0].exist; 
+			})
+			.catch(function(error){
+				console.log(error);
+				return false;
+			})
+
+		return response;
+	}, 
+	//save the new user
+	saveNewUser: async function(data){
+
+		const query = "INSERT INTO users SET first_name = ?, last_name = ?, email = ?, gender = ?, admin = ? , user= ?, profile_picture = ?,  created_at = ?, updated_at = ? "; 
+		const value = [data.first_name, data.last_name, data.email, data.gender, data.admin, data.user, data.profile_pic, new Date(), new Date() ]; 
+		const response = await db(query, value)
+			.then(function(res){	
+				return true; 
+			})
+			.catch(function(error){
+				console.log(error);
+				return false;
+			})
+
+		return response;
+	}, 
+
+	//get the user id by email 
+	getUserIdbyEmail: async function(email){
+
+		const query = "SELECT id FROM users WHERE email = ?";
+		const value = email; 
+		const response = await db(query, value)
+			.then(function(res){
+				return res.message[0].id;
+			})
+			.catch(function(error){
+				console.log(error);
+				return false;
+			})
+
+		return response;
 	}
 } 
 

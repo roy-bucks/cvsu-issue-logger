@@ -1,6 +1,5 @@
 $(document).ready(function(){
-
-
+	
 /*********************Process the ticket ****************/
 $(document).on("click", ".view", function(){
 
@@ -18,7 +17,9 @@ $(document).on("click", ".view", function(){
 			$(".view-error").removeClass("d-none");
 		}
 		else{
+
 			if(res.data){
+
 				//no error 
 				setPreviewTicket(res.data);
 
@@ -43,7 +44,7 @@ function setPreviewTicket(data){
 	const created_at = moment(new Date(data.created_at)).format('lll')
 
 	//Basic Ticket Details 
-	$(".ticket-id").text(data.ticket_id);
+	$(".ticket-id").text(data.issue_id);
 	$(".ticket-createdBy").text(data.created_by);
 	$(".ticket-status").text(data.status);
 	$(".ticket-priority").text(data.priority);
@@ -52,9 +53,8 @@ function setPreviewTicket(data){
 
 	//Ticket more details
 	$(".ticket-issue").text(data.issue);
-	$(".ticket-sector").text(data.sector);
-	$(".ticket-erp").text(data.erp);
-	$(".ticket-region").text(data.region);
+	$(".ticket-sector").text(data.course);
+	$(".ticket-erp").text(data.admin_instruc);
 
 
 	const description = data.description; 
@@ -71,7 +71,7 @@ function setPreviewTicket(data){
 
 	const file = data.file;
 	if(file){
-
+		$(".file-image").attr("src", file);
 		$(".ticket-file").html("<i class='i bi-file-earmark-fill'></i><a href='"+file+"'> download </a>");
 	}
 	else{

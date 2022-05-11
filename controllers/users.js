@@ -65,8 +65,24 @@ const users = {
 
 		const user_id  = req.session.user_id;
 		const data = await userModel.getAllTicketsById(user_id)
+		
 		res.json(data);
-	}
+	}, 
+
+	//for google auhentication 
+	// Google login
+	googleauth: async  function(req, res){
+		const user_id = req.user.id;
+
+		req.session.user_id = user_id;
+		req.session.auth = 'user';
+
+		res.redirect("/");
+
+	},
+
+	//save the new user 
+	
 }
 
 module.exports = users; 

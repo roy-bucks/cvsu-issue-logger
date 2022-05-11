@@ -48,8 +48,8 @@ function validate(data){
 		flag = 1;
 	}
 
-	if( validator.isEmpty(data.sector)){
-		$(".sector")
+	if( validator.isEmpty(data.course)){
+		$(".course")
 			.addClass("is-invalid")
 			.siblings(".feedback")
 			.addClass("invalid-feedback")
@@ -58,21 +58,12 @@ function validate(data){
 		flag = 1;
 	}
 
-	if( validator.isEmpty(data.erp)){
-		$(".erp")
+	if( validator.isEmpty(data.admin_instruc)){
+		$(".admin_instruc")
 			.addClass("is-invalid")
 			.siblings(".feedback")
 			.addClass("invalid-feedback")
 			.text("Please select ERP");
-		
-		flag = 1;
-	}
-	if( validator.isEmpty(data.region)){
-		$(".region")
-			.addClass("is-invalid")
-			.siblings(".feedback")
-			.addClass("invalid-feedback")
-			.text("Please select region");
 		
 		flag = 1;
 	}
@@ -129,16 +120,16 @@ $(".submit").click(function(){
 
 	const data ={
 		priority: $(".priority").val(),
-		sector: $(".sector").val(),
-		erp: $(".erp").val(),
-		region: $(".region").val(),
+		course: $(".course").val(),
+		admin_instruc: $(".admin_instruc").val(),
 		issue: $(".issue").val(),
 		description: $(".description").val(),
 		
 	}
 
+
 	const isValid = validate(data);
-	if(isValid){
+	if(isValid){ 
 		
 		let file = $(".file").prop('files')[0];
 
@@ -162,7 +153,9 @@ $(".submit").click(function(){
 		       }
 		       else{
 		       		$(".success").modal("show");
-		       		location.reload();
+					setTimeout( ()=>{
+						location.reload();
+					}, 3000)
 		       } 
 		    }
 		});
@@ -195,6 +188,7 @@ $(document).on("click", ".btn-close", function(){
 function getActiveTicket(){
 	$.post("/user/ticket/active/count", function(res){
 		if(res){
+
 			$(".ticket-badge").text(res)
 		}
 	})
@@ -242,13 +236,13 @@ function setTickets(data){
 			priority_badge = "primary";
 		}
 		let html = "<tr>";
-            html += "<td>"+data[a].ticket_id+"</td>";
+            html += "<td>"+data[a].issue_id+"</td>";
             html += "<td>"+created_at+"</td>";
            	html += "<td>"+updated_at+"</td>";
             html += "<td><span class='badge bg-"+status_badge+"'>"+data[a].status+"</span></td>";
             html += "<td>"+data[a].issue+"</td>";
             html += "<td><span class='badge bg-"+priority_badge+"'>"+data[a].priority+"</span></td>";
-            html += "<td><input type='hidden' class='ticket_id' value = '"+data[a].ticket_id+"'><button class='btn btn-secondary btn-sm view'>view</button></td>";
+            html += "<td><input type='hidden' class='ticket_id' value = '"+data[a].issue_id+"'><button class='btn btn-secondary btn-sm view'>view</button></td>";
             html += "</tr>"
          $(".tickets-table-content").append(html);
     }

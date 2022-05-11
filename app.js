@@ -10,6 +10,8 @@ const bodyParser = require('body-parser'); //post data
 const sessions = require('express-session'); //for session 
 const MySQLStore = require('express-mysql-session')(sessions);
 const cors = require("cors");
+const passport = require('passport')// require the passport
+require("./config/passport")(passport); 
 
 /****************************************************************/
 
@@ -18,6 +20,8 @@ const cors = require("cors");
    create the application
 */
 const app = express();
+
+
 
 //*******************Cors option******************//
 var corsOptions = {
@@ -51,6 +55,14 @@ const session_config = sessions({
     })
 
 app.use(session_config);
+
+//this is for passport
+/* Apply the passport as Session
+    For Google Authentication
+*/
+app.use(passport.initialize());
+app.use(passport.session());
+
 /******************************************************************/
 
 

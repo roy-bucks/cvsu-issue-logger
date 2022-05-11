@@ -82,16 +82,13 @@ function checkSetActive(ticket_id){
 	$(".ticket-active").addClass("d-none");
 
 	$.post("/admin/ticket/set-check/", {ticket_id},function(res){
+
 		if(res.active){
 			$(".submit-process").addClass("disabled");
 			$(".ticket-active").removeClass("d-none");
 		}
 	})
-
 }
-
-
-
 
 
 /*********************Process the ticket ****************/
@@ -129,13 +126,13 @@ $(document).on("click", ".view", function(){
 
 function setPreviewTicket(data){
 
-	$(".ticket-id-process").val(data.ticket_id);
+	$(".ticket-id-process").val(data.issue_id);
 
 	const updated_at= moment(new Date(data.updated_at)).format('lll');
 	const created_at = moment(new Date(data.created_at)).format('lll')
 
 	//Basic Ticket Details 
-	$(".ticket-id").text(data.ticket_id);
+	$(".ticket-id").text(data.issue_id);
 	$(".ticket-createdBy").text(data.created_by);
 	$(".ticket-status").text(data.status);
 	$(".ticket-priority").text(data.priority);
@@ -144,9 +141,8 @@ function setPreviewTicket(data){
 
 	//Ticket more details
 	$(".ticket-issue").text(data.issue);
-	$(".ticket-sector").text(data.sector);
-	$(".ticket-erp").text(data.erp);
-	$(".ticket-region").text(data.region);
+	$(".ticket-sector").text(data.course);
+	$(".ticket-erp").text(data.admin_instruc);
 
 
 	const description = data.description; 
@@ -163,10 +159,8 @@ function setPreviewTicket(data){
 
 	const file = data.file;
 	if(file){
-
-		console.log(file);
-
 		$(".ticket-file").html("<i class='i bi-file-earmark-fill'></i><a href='"+file+"'> download </a>");
+		$(".file-image").attr("src", file);
 	}
 	else{
 		$(".ticket-file").html("<i class='bi bi-dash-circle-fill text-warning'></i></i><span class='fw-bold text-muted'>  No File Attached</span>");
@@ -199,25 +193,20 @@ $(".submit-process").click(function(){
 	}
 
 	$.post("/admin/ticket/process", {data}, function(res){
-
 		resetbtn();
 		$(".asign").removeClass("d-none")
-
 		if(! res.error){
 			$(".view-process").modal("toggle");
 			$(".success").modal("show");
-			setTimeout(()=>{ location.reload() }, 3000);
-        	
+			setTimeout(()=>{ location.reload() }, 2000);  	
 		}
 		else{
 			$(".view-error").removeClass("d-none");
 		}
 	})
-
 })
 
 $(".ticket-close").click(function(){
-
 	const ticket_id = $(this).siblings(".ticket-id-process").val();
 	$.post("/admin/ticket/disactive",{ticket_id});
 })

@@ -101,7 +101,7 @@ const admin = {
 							 created_at: moment(new Date(tickets.data[a].created_at)).format('lll'),
 							 priority: tickets.data[a].priority,
 							 issue: tickets.data[a].issue, 
-							 ticket_id: tickets.data[a].ticket_id
+							 ticket_id: tickets.data[a].issue_id
 						})
 					}
 				}
@@ -243,14 +243,13 @@ const admin = {
 							name = getName.first_name +" "+getName.last_name;
 						}
 					data.push({
-						ticket_id: tickets.data[a].ticket_id,
+						ticket_id: tickets.data[a].issue_id,
 						status: tickets.data[a].status,
 						subject: tickets.data[a].issue,
 						created_at: moment( new Date(tickets.data[a].created_at)).format('lll'),
 						updated_at: moment( new Date(tickets.data[a].updated_at)).format('lll'),
 						assigned: name,
 						description: tickets.data[a].description,
-						erp: tickets.data[a].erp
 					})
 				}
 				return{
@@ -316,7 +315,9 @@ const admin = {
 	setCheckTicket: async function(data){
 
 		const ticketActive = await admin.checkTicketActive(data.ticket_id);
+
 		if(ticketActive){
+
 			if(ticketActive == data.admin_id || ticketActive == "0"){
 
 				const setActive = await admin.setTicketActive(data);
@@ -353,7 +354,9 @@ const admin = {
 	}, 
 
 	ticketDisactivate: async function(data){
+
 		const ticketActive = await admin.checkTicketActive(data.ticket_id);
+
 		if(ticketActive){
 			if(ticketActive == data.admin_id){
 				data["admin_id"] = '0';
@@ -382,7 +385,7 @@ const admin = {
 							 created_at: moment(new Date(tickets.data[a].created_at)).format('lll'),
 							 priority: tickets.data[a].priority,
 							 issue: tickets.data[a].issue, 
-							 ticket_id: tickets.data[a].ticket_id
+							 ticket_id: tickets.data[a].issue_id
 						})
 				}
 				return {
@@ -407,7 +410,7 @@ const admin = {
 	}, 
 	//******************************************Global
 	getTicketsDetailsBYid: async function(admin_id, status){
-		const query = "SELECT tickets.ticket_id, tickets.created_at, tickets.user_id, tickets.priority, tickets.issue FROM tickets INNER JOIN admin_response ON admin_response.ticket_id = tickets.ticket_id WHERE admin_response.admin_id = ? AND tickets.status = ?";
+		const query = "SELECT issues.issue_id, issues.created_at, issues.user_id, issues.priority, issues.issue FROM issues INNER JOIN admin_response ON admin_response.ticket_id = issues.issue_id WHERE admin_response.admin_id = ? AND issues.status = ?";
 		const value = [admin_id, status]
 
 		const response = await db(query, value)
@@ -438,7 +441,7 @@ const admin = {
 
 	//set the view ticket to active
 	setTicketActive: async function(data){
-		const query = "UPDATE tickets SET active = ? WHERE ticket_id = ?";
+		const query = "UPDATE issues SET active = ? WHERE issue_id = ?";
 		const value = [data.admin_id, data.ticket_id];
 		const response = await db(query, value)
 			.then(function(res){
@@ -455,7 +458,7 @@ const admin = {
 	//check if the ticket is view 
 	checkTicketActive: async function(ticket_id){
 
-		const query = "SELECT active FROM tickets WHERE ticket_id = ?";
+		const query = "SELECT active FROM issues WHERE issue_id = ?";
 		const value = ticket_id;
 		const response = await db(query, value)
 			.then(function(res){
@@ -465,6 +468,7 @@ const admin = {
 				console.log(error);
 				return false;
 			})
+
 		return response;
 
 	}, 
@@ -484,7 +488,7 @@ const admin = {
 	}, 
 	updateTicketStatusbyId: async function(ticket_id, new_status){
 
-		const query = "UPDATE tickets SET status = ?, updated_at = ? WHERE ticket_id = ?";
+		const query = "UPDATE issues SET status = ?, updated_at = ? WHERE issue_id = ?";
 		const value = [new_status, new Date(), ticket_id]; 
 		const response = await db(query, value)
 			.then(function(res){
@@ -498,7 +502,7 @@ const admin = {
 	},
 	getTicketById: async function(id){
 
-		const query = "SELECT * FROM tickets WHERE ticket_id = ?";
+		const query = "SELECT * FROM issues WHERE issue_id = ?";
 		const value = id; 
 		const response = await db(query, value)
 			.then(function(res){
@@ -555,7 +559,7 @@ const admin = {
 	},
 	getAllTickets: async function(){
 
-		const query = "SELECT * FROM tickets ORDER BY created_at DESC";
+		const query = "SELECT * FROM issues ORDER BY created_at DESC";
 		const response = await db(query)
 			.then(function(res){
 				const len = res.message.length;
