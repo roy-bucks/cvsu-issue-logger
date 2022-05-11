@@ -82,7 +82,7 @@ const user = {
 	saveTicket: async function(data){
 		const ticket_id = await user.generateTicketNumber();
 		const query = "INSERT INTO issues SET user_id = ?, issue_id = ?, priority= ?, course = ?, admin_instruc = ?, file = ?, issue = ?, description = ?, status = ?, active =?, created_at = ?, updated_at = ? "; 
-		const value = [ data.user_id, ticket_id, data.priority, data.course, data.admin_instruc, data.file , data.issue, data.description, "open", 1,  new Date(), new Date()];
+		const value = [ data.user_id, ticket_id, data.priority, data.course, data.admin_instruc, data.file , data.issue, data.description, "open", 0,  new Date(), new Date()];
 		const response = await db(query, value)
 			.then(function(res){
 				return ticket_id;
